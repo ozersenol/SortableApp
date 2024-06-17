@@ -1,0 +1,56 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+  
+<div class="row">
+    @foreach (var item in Model.SectionList)
+    {
+        <div class="col-md-6 border-2 border-success mb-3">
+            <span>Section: @item.Id </span> 
+            <div id="@item.Id" class="sortable">
+                @foreach (var card in item.Cards)
+                {
+                    <div class="card" data-id="@card.Id">
+                        <div class="card-body">
+                            @card.Content
+                        </div>
+                    </div>
+                }
+                <div class="empty-placeholder" style="display: none;"><p>This section is empty</p></div> <!-- Placeholder for empty section -->
+
+            </div>
+        </div>
+    }
+</div>
+
+
+@section Scripts {
+    <script src="~/js/site.js"></script>
+    <style>
+ 
+.section {
+    border: 1px solid #ccc;
+    padding: 10px;
+    min-height: 100px; /* Adjust height as needed */
+    margin-bottom: 15px;
+    background-color: #f9f9f9; /* Optional: Light background color for visibility */
+    position: relative; /* Ensure absolute elements are positioned correctly */
+}
+
+.empty-placeholder {
+    min-height: 50px; /* Ensure this is large enough to allow drops */
+    display: block; /* Ensure it takes up space */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #aaa;
+    text-align: center;
+    width: 100%; /* Ensure it spans the full width of the section */
+    pointer-events: none; /* Allow items to be dropped into the section */
+}
+
+    </style>
+}
