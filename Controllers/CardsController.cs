@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 public class CardsController : ControllerBase
 {
     [HttpPost]
-    [Route("api/cards/move")]
+    [Route("/api/cards/move")]
     public IActionResult MoveCard([FromBody] MoveCardModel model)
     {
         // Process the card move event
