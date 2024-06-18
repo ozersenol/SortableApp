@@ -7,9 +7,9 @@
 <div class="row">
     @foreach (var item in Model.SectionList)
     {
-        <div class="col-md-6 border-2 border-success mb-3">
-            <span>Section: @item.Id </span> 
-            <div id="@item.Id" class="sortable">
+        <div class="col-md-6 section" id="@item.Id">
+            ZONE: @item.Id
+            <div class="sortable" id="sortable-@item.Id">
                 @foreach (var card in item.Cards)
                 {
                     <div class="card" data-id="@card.Id">
@@ -18,8 +18,7 @@
                         </div>
                     </div>
                 }
-                <div class="empty-placeholder" style="display: none;"><p>This section is empty</p></div> <!-- Placeholder for empty section -->
-
+                 <div class="empty-placeholder" style="display: none;">This section is empty</div> 
             </div>
         </div>
     }
@@ -33,24 +32,21 @@
 .section {
     border: 1px solid #ccc;
     padding: 10px;
-    min-height: 100px; /* Adjust height as needed */
+    min-height: 100px;
     margin-bottom: 15px;
-    background-color: #f9f9f9; /* Optional: Light background color for visibility */
-    position: relative; /* Ensure absolute elements are positioned correctly */
+    background-color: #f9f9f9;
+    position: relative;
 }
 
 .empty-placeholder {
-    min-height: 50px; /* Ensure this is large enough to allow drops */
-    display: block; /* Ensure it takes up space */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    min-height: 500px;
+    display: none; /* Start hidden */
     color: #aaa;
     text-align: center;
-    width: 100%; /* Ensure it spans the full width of the section */
-    pointer-events: none; /* Allow items to be dropped into the section */
+    width: 100%;
+    pointer-events: none;
 }
+
 
     </style>
 }

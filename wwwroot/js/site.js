@@ -1,32 +1,34 @@
-﻿document.addEventListener('DOMContentLoaded', (event) => {
+﻿document.addEventListener('DOMContentLoaded', () => {
     let sections = document.querySelectorAll('.sortable');
 
     function updatePlaceholders() {
-        sections.forEach((section) => {
+        sections.forEach(section => {
             let placeholder = section.querySelector('.empty-placeholder');
             let cards = section.querySelectorAll('.card');
             if (cards.length === 0) {
-                placeholder.style.display = 'block';
+                placeholder.style.display = 'none';
             } else {
                 placeholder.style.display = 'none';
             }
         });
     }
 
-    sections.forEach((section) => {
+    sections.forEach(section => {
         new Sortable(section, {
-            group: 'shared', // Enable drag-and-drop between sections
+            group: 'shared',
             animation: 150,
-            emptyInsertThreshold: 5, // Make the area larger to improve drop capability in empty lists
+            ghostClass: 'sortable-ghost',
+            onAdd: function (evt) {
+                updatePlaceholders();
+            },
+            onRemove: function (evt) {
+                updatePlaceholders();
+            },
             onEnd: function (evt) {
-                let itemEl = evt.item; // dragged HTMLElement
-                let newIndex = evt.newIndex; // new index within parent
-                let oldIndex = evt.oldIndex; // old index within parent
-
-                // Get the card ID from the data attribute
+                let itemEl = evt.item;
+                let newIndex = evt.newIndex;
+                let oldIndex = evt.oldIndex;
                 let cardId = itemEl.getAttribute('data-id');
-
-                // Prepare the data to be sent to the backend
                 let data = {
                     cardId: cardId,
                     newIndex: newIndex,
@@ -35,7 +37,6 @@
                     oldSection: evt.from.getAttribute('id')
                 };
 
-                // Make an API call to notify the backend
                 $.ajax({
                     url: '/api/cards/move',
                     type: 'POST',
@@ -53,6 +54,5 @@
         });
     });
 
-    // Initial check for placeholders
     updatePlaceholders();
 });
